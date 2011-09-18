@@ -16,7 +16,8 @@ int binarysearch(int *A, int n, int key){
 
 	int i = 0;
 	while (low <= high){
-		mid = low + (high - low)/2;
+		//mid = low + (high - low)/2;
+		mid = (low +high)/2;
 		if (A[mid] == key){
 			return mid;
 		}
@@ -32,6 +33,12 @@ int binarysearch(int *A, int n, int key){
 
 int main(int argc, char *argv[]){
 	int i = 0;
+	if (argc == 1){
+		printf("Parameters: 0 1 2 3 3, where A = [0,1,2,3] and key = 4\n");
+		exit(1);
+	}
+
+	/*check if the array is sorted*/
 	for (i = 1; i < argc - 2; i++){
 		 if(atoi(argv[i]) > atoi(argv[i+1])){
 		 	printf("array is not sorted\n");
@@ -40,11 +47,19 @@ int main(int argc, char *argv[]){
 	}
 
 	int *A,key;
+	
+	/*allocating memory*/
 	A = (int *) calloc(argc - 1, sizeof(int));
+	
+	/*get integer array*/
 	get_array(A,argv, argc);
+	
+	/*get last value from argv that is the key to search*/
 	key = atoi(argv[argc - 1]);
 
 	int found = 0;
+
+	/*call binary search*/
 	found = binarysearch(A, argc - 3, key);
 	
 	if(found >= 0){
@@ -53,5 +68,7 @@ int main(int argc, char *argv[]){
 	else{
 		printf("key %i not found!\n", key);
 	}
+
+	free(A);
 	return 0;
 }
