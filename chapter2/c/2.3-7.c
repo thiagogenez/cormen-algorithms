@@ -99,6 +99,8 @@ int main(int argc, char *argv[]){
 	/*checking if there are two elements in the Array that the sum of both is equal to x*/
 	result = do_exercice(A, argc - 2,x);
 	
+	/*print x value*/
+	printf("x: %d\n",x);
 	/*print the sorted array*/
 	printf("mergesort(A) = ");
 	for(i = 0; i < argc - 2; i++)
