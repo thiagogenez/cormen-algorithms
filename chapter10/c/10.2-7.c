@@ -26,6 +26,23 @@ void print_list(node **head){
 	printf("\n");
 }
 
+void print_recursive(node *head){
+	node *aux = head;
+	if(aux != NULL){
+		print_recursive(aux->next);
+		printf("%d, ",aux->num);
+	}
+}
+
+void reverse_recursive(node *head, node **new_head){
+	node *aux = head;
+	if(aux != NULL){
+		insert(new_head, aux->num);
+		reverse_recursive(aux->next, new_head);
+	
+	}
+}
+
 void reverse(node **head, node **new_head){
 	node *aux = *head;
 
@@ -44,8 +61,14 @@ int main (void){
 
 	print_list(&head);
 	node *new_head = NULL;
-	reverse(&head, &new_head);	
+//	reverse(&head, &new_head);	
+//	print_list(&new_head);
+//	printf("print_recursive: ");
+//	print_recursive(head);
+
+	reverse_recursive(head, &new_head);
 	print_list(&new_head);
+	printf("\n");
 	return 0;
 }
 
