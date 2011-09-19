@@ -37,15 +37,17 @@ void enqueue (queue *s, int x){
 int dequeue (queue *s){
 	if(isEmpty(s))
 		printf("Queue underflow!\n");
-		
-	int x = s->items[s->head];
-	if(s->head == QUEUESIZE)
-		s->head = 0;
-	else
-		s->head++;
-	s->size--;
-	return x;
-}
+	else{	
+		int x = s->items[s->head];
+		if(s->head == QUEUESIZE)
+			s->head = 0;
+		else
+			s->head++;
+		s->size--;
+		return x;
+	}
+	return -1;	
+}	
 
 
 void print_queue(queue *s){
@@ -69,9 +71,9 @@ int main (void){
 
 
 	int i = 0;
-	for(i; i < 10; i++)
-		enqueue(s,i);
-	print_queue(s);
+//	for(i; i < 10; i++)
+//		enqueue(s,i);
+//	print_queue(s);
 	
 	int a = dequeue(s);
 	int b = dequeue(s);
