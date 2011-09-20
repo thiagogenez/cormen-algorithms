@@ -9,7 +9,6 @@ typedef struct Node{
 	int num;
 }node;
 
-
 void get_array(int *A, char *argv[], int argc){
         int i = 0;
                 for (i = 1; i < argc; i++){
@@ -69,6 +68,56 @@ int counting_leaves(node **root){
 	return 0 + counting_leaves(&(*root)->l) + counting_leaves(&(*root)->r);
 }	
 
+int bigger(int a, int b){
+	if (a > b)
+		return a;
+	return b;
+}
+
+int get_depth(node **root){
+	if((*root) == NULL || ((*root)->l == NULL && (*root)->r == NULL))
+		return 0;
+	return (1 + bigger(get_depth(&(*root)->l), get_depth(&(*root)->r)));
+}
+
+void enqueue(node **head, node *real){
+	if((*head) == NULL){
+		(*head) = malloc(sizeof(node));
+		(*head)->num = 0;
+		(*head)->l = NULL;
+		(*head)->r = real;
+	}
+	else
+		enqueue(&(*head)->l,real);
+}
+node* dequeue(node **head){
+	if((*head) != NULL){
+		node *aux = *head;
+		*head = (*head)->l;
+		return aux;
+	}
+	return (*head);
+}
+void print_level(node **root){
+	node *head = NULL;
+	if((*root) != NULL){
+		enqueue(&head, (*root));
+		while(head != NULL){
+			node *aux = dequeue(&head)->r;
+			printf("%d, ", aux->num);
+			if(aux->l != NULL)
+				enqueue(&head, aux->l);
+			if(aux->r != NULL)
+			        enqueue(&head, aux->r);
+		}
+	}
+}
+void print_queue(node **head){
+	if(*(head) != NULL){
+		printf("%d, ",(*head)->num);
+		print_queue(&(*head)->l);
+	}
+}
 int main (int argc, char *argv[]){
 	int *A;
 	/*allocating memory*/
@@ -93,4 +142,17 @@ int main (int argc, char *argv[]){
 	printf("maximum: %d\n",get_maximum(&root));
 	printf("amount of nodes: %d\n",counting_nodes(&root));
 	printf("amount of leaves: %d\n",counting_leaves(&root));		
+	printf("depth: %d\n", get_depth(&root));
+	printf("per level: ");
+	print_level(&root);
+	printf("\n");
+/*	node *head = NULL;
+	enqueue(&head, 10);
+	enqueue(&head, 1);
+	enqueue(&head, 2);
+	print_queue(&head);
+	printf("dequeue: %d\n", dequeue(&head)->num);
+*/
 }
+
+
