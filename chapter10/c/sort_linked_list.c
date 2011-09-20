@@ -8,11 +8,12 @@ typedef struct Node{
 }node;
 
 
-void insert(node **head, int x){
+void insert(node **head, node **tail, int x){
 	node *new = (node *) malloc(sizeof(node));
 	new->num = x;
 	new->next = *head;
 	*head = new;
+	(*tail)->num++;
 }
 
 void print_list(node **head){
@@ -68,16 +69,25 @@ void sort(node **head, node **new_head){
 	}
 }
 
+
+void quick_sort(node **head){
+	
+}
+
 int main (void){
 	node *head = NULL;
+	node *tail = (node *)malloc(sizeof(node));
+	tail->num = 0;
+
 	int i = 0;
 
 	for(i = 0; i <= 5 ; i++)
-		insert(&head,i);
+		insert(&head,&tail,i);
 	for(i = -5; i < -1  ; i++)
-		insert(&head,i);
+		insert(&head,&tail,i);
 
 	print_list(&head);
+
 	node *new_head = NULL;
 	sort(&head, &new_head);
 
