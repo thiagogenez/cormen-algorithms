@@ -29,20 +29,16 @@ int partition(int *A, int p, int r){
 
 
 int select_(int *A, int p, int r, int i){
-	printf("p: %d, r: %d, i: %d\n",p,r,i);
-
 	if(p == r)
 		return p;
 	int q = partition(A,p,r);
-	printf("q: %d\n",q);
 	int k = q - p + 1;
-	printf("k: %d\n",k);
 	if(k == i)
-		return k - 1;
+		return q;
 	if(i < k)
-		select_(A,p,q-1, i);
+		return select_(A,p,q-1, i);
 	else
-		select_(A,q+1,r,i-k);
+		return select_(A,q+1,r,i-k);
 }
 
 int main (int argc, char *argv[]){
@@ -62,7 +58,11 @@ int main (int argc, char *argv[]){
 
 	/*ith smallest element of the array A[0..argc - 3]*/
 	i = atoi(argv[argc - 1]);
-
+	
+	if(i >= argc - 1 || i <= 0){
+		printf("array do not have %dth element\n",i);
+		exit(0);
+	}
 
 	int found = select_(A, 0, argc - 3, i);
 	printf("found: %d\n",found);
