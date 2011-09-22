@@ -26,7 +26,7 @@ void insert (node **head, node **tail, int value, int i){
 
 void print(node **head){
 	if((*head) != NULL){
-		printf("%d(%d) ", (*head)->pos, (*head)->num);
+		printf("%d, ",  (*head)->num);
 		print(&(*head)->next);
 	}
 }
@@ -49,13 +49,17 @@ node* partition(node **head, node **tail){
 	node *nodej = *head;
 	node *nodei = NULL;
 	node *r = *tail;
-	while(aux != NULL && aux->next != NULL && aux->next != r){
-		if(aux->num <= r->num){
-			nodei = aux;
-			exchange(nodei, nodej);
+	while(aux != NULL){
+		if(aux != r){
+			if(aux->num <= r->num){
+				nodei = aux;
+				exchange(nodei, nodej);
+			}
+			else
+				nodej = aux;
 		}
-		nodej = aux;
-		aux = aux->next;	
+			aux = aux->next;
+		
 	}
 	if(nodei == NULL){
 		exchange(*head, r);
@@ -67,14 +71,7 @@ node* partition(node **head, node **tail){
 
 void quick_sort(node **head, node **tail){
 	if (*head != NULL && *tail != NULL && (*head)->pos < (*tail)->pos){
-		printf("r: %d\n",(*tail)->num);
-		printf("p: %d\n", (*head)->num);
 		node *q = partition (head,tail);
-		printf("q: %d\n",q->num);
-		//printf("q->next: %d, q->prev: %d\n",q->next->num, q->prev->num);
-		print(head);
-	//	exit(1);
-		
 		quick_sort(head, &(q)->prev);
 		quick_sort(&(q)->next, tail);
 	}
@@ -101,9 +98,6 @@ int main(int argc, char *argv[]){
 	printf("unsorted: ");	
 	print(&head);
 	printf("\n");
-
-	printf("qtd nodes: %d, tail: %d\n", tail->num,tail->next->num);
-
 
 	quick_sort(&head, &(tail)->next);
 	printf("sorted: ");
